@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       fields: [
+        { key: 'id' },
         { key: 'name' },
         { key: 'country' },
         { key: 'doses' },

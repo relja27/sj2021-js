@@ -59,9 +59,9 @@ export default {
     ...mapActions(['new_vaccine']),
 
     addNew: function() {
-      const r = JSON.stringify({name: this.newName, country: this.newCountry, doses: this.newDoses});
+      const newVaccine = JSON.stringify({name: this.newName, country: this.newCountry, doses: this.newDoses});
 
-      this.new_vaccine(r);
+      this.new_vaccine(newVaccine);
 
       this.newName = '';
       this.newCountry = '';

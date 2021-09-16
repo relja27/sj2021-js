@@ -2,17 +2,17 @@
   <b-container fluid>
     <b-form>
       <b-row class="mt-2">
-        <b-col sm="5">
-          <b-form-textarea v-model="newName" placeholder="New name"></b-form-textarea>
+        <b-col sm="2" offset="2">
+          <b-input v-model="newName" class="mb-2 mr-sm-2 mb-sm-0" placeholder="Ime"></b-input>
         </b-col>
-        <b-col sm="5">
-          <b-form-textarea v-model="newCountry" placeholder="New country"></b-form-textarea>
+        <b-col sm="2" offset="0">
+          <b-input v-model="newCountry" class="mb-2 mr-sm-2 mb-sm-0" placeholder="Država"></b-input>
         </b-col>
-        <b-col sm="5">
-          <b-form-textarea v-model="newDoses" placeholder="New doses"></b-form-textarea>
+        <b-col sm="2" offset="0">
+          <b-input v-model="newDoses" class="mb-2 mr-sm-2 mb-sm-0" placeholder="Broj doza"></b-input>
         </b-col>
-        <b-col sm="1">
-          <b-button variant="primary" size="lg" @click="updateVaccine">Update</b-button>
+        <b-col sm="2" offset="0">
+          <b-button variant="primary" size="mb" @click="updateVaccine">Izmeni</b-button>
         </b-col>
       </b-row>
     </b-form>
@@ -30,21 +30,20 @@ export default {
   data() {
     return {
       newName: '',
-      newCountry: '',
-      newDoses: '',
+     newCountry: '',
+    newDoses: ''
     }
   },
   mounted: function () {
-    this.newName = this.vaccine.name,
-    this.newCountry = this.vaccine.country,
-    this.newDoses = this.vaccine.doses
+    this.newName = this.vaccine.name;
+    this.newCountry = this.vaccine.country;
+    this.newDoses = this.vaccine.doses;
   },
   methods: {
     ...mapActions(['change_vaccine']),
 
     updateVaccine: function() {
-      const newVaccine = JSON.stringify({name: this.vaccine.name, country: this.vaccine.country, doses: this.doses});
-
+      const newVaccine = JSON.stringify({name: this.newName, country: this.newCountry, doses: this.newDoses});
       this.change_vaccine({id: this.$route.params.id, vaccine: newVaccine});
 
     }
