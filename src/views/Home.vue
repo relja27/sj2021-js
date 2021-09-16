@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <VaccineList/>
+    <b-container>
+      <b-row>
+        <b-col cm="6">
+          <AddVaccine/>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import AddVaccine from "@/components/AddVaccine";
+import VaccineList from "@/components/VaccineList";
 
 export default {
-  name: 'Home',
+  name: 'home',
+  data() {
+    return {
+      vaccines: []
+    }
+  },
   components: {
-    HelloWorld
+    VaccineList,
+    AddVaccine
   }
 }
 </script>
