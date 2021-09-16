@@ -49,7 +49,7 @@ export default new Vuex.Store({
   actions: {
 
     load_vaccines: function ({ commit }) {
-      fetch('http://localhost/api/vaccines', { method: 'get' }).then((response) => {
+      fetch('http://localhost:8081/api/vaccines', { method: 'get' }).then((response) => {
         if (!response.ok)
           throw response;
 
@@ -67,7 +67,7 @@ export default new Vuex.Store({
     },
 
     delete_vaccine: function({ commit }, id) {
-      fetch(`http://localhost/api/vaccines/${id}`, { method: 'delete' }).then((response) => {
+      fetch(`http://localhost:8081/api/vaccines/${id}`, { method: 'delete' }).then((response) => {
         if (!response.ok)
           throw response;
 
@@ -92,7 +92,7 @@ export default new Vuex.Store({
         return;
       }
 
-      fetch('http://localhost/api/vaccines', {
+      fetch('http://localhost:8081/api/vaccines/', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ export default new Vuex.Store({
         return;
       }
 
-      fetch(`http://localhost/api/vaccines/${payload.id}`, {
+      fetch(`http://localhost:8081/api/vaccines/${payload.id}`, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json'
