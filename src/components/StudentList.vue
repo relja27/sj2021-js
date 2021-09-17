@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron header="Studenti" :lead="'Ukupno: ' + students.length">
+    <b-jumbotron header="Studenti 🎓" :lead="'Ukupno: ' + students.length">
       <b-container fluid>
         <b-form>
           <b-table
@@ -48,7 +48,7 @@ export default {
 
     rowClick: function (item) {
 
-      router.push({path: `/edit/${item.id}`});
+      router.push({path: `/updatestudent/${item.id}`});
 
     }
   }

@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import Vaccines from "@/views/Vaccines"
 import Students from "@/views/Students";
 import Edit from "@/views/Edit";
+import UpdateVaccine from "@/views/UpdateVaccine";
+import UpdateStudent from "@/views/UpdateStudent";
 
 Vue.use(VueRouter)
 
@@ -24,9 +26,14 @@ const routes = [
         component: Students
     },
     {
-        path: '/edit/:id',
-        name: 'edit',
-        component: Edit
+        path: '/updatevaccine/:id',
+        name: 'updateVaccine',
+        component: UpdateVaccine
+    },
+    {
+        path: '/updatestudent/:id',
+        name: 'updateStudent',
+        component: UpdateStudent
     }
 
 

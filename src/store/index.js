@@ -7,14 +7,14 @@ Vue.use(Vuex)
 const vaccineSchema = Joi.object().keys({
   name: Joi.string().trim().min(1).max(45).required(),
   country: Joi.string().trim().min(1).max(45).required(),
-  doses: Joi.number().integer().min(1).max(20).required(),
+  doses: Joi.number().min(1).max(20).required(),
 })
 
 const studentSchema = Joi.object().keys({
   name: Joi.string().trim().min(1).max(45).required(),
   lastname: Joi.string().trim().min(1).max(45).required(),
-  year: Joi.number().integer().min(2006).max(2021).required(),
-  vaccine_id: Joi.number().integer().min(1).max(200).required(),
+  year: Joi.number().min(2006).max(2021).required(),
+  vaccine_id: Joi.number().min(1).max(200).required(),
 })
 
 export default new Vuex.Store({

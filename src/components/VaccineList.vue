@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron header="Odobrene vakcine" :lead="'Ukupno: ' + vaccines.length">
+    <b-jumbotron header="Odobrene vakcine 💉" :lead="'Ukupno: ' + vaccines.length">
       <b-container fluid>
         <b-form>
           <b-table
@@ -47,7 +47,7 @@ export default {
 
     rowClick: function (item) {
 
-      router.push({path: `/edit/${item.id}`});
+      router.push({path: `/updatevaccine/${item.id}`});
 
     }
   }
