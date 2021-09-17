@@ -17,10 +17,18 @@ const studentSchema = Joi.object().keys({
   vaccine_id: Joi.number().min(1).max(200).required(),
 })
 
+const userSchema = Joi.object().keys({
+  username: Joi.string().trim().min(1).max(45).required(),
+  email: Joi.string().trim().min(1).max(45).required(),
+  password: Joi.string().trim().min(1).max(45).required()
+})
+
+
 export default new Vuex.Store({
   state: {
     vaccines: [],
-    students: []
+    students: [],
+    users: []
   },
 
   mutations: {
@@ -33,12 +41,20 @@ export default new Vuex.Store({
       state.students = students;
     },
 
+    set_users: function (state, users) {
+      state.users = users;
+    },
+
     add_vaccine: function (state, vaccine) {
       state.vaccines.push(vaccine);
     },
 
-    add_student: function (state, students) {
-      state.students.push(students);
+    add_student: function (state, student) {
+      state.students.push(student);
+    },
+
+    add_user: function (state, user) {
+      state.users.push(user);
     },
 
     remove_vaccine: function (state, id) {
@@ -209,6 +225,37 @@ export default new Vuex.Store({
         return response.json();
       }).then((jsonData) => {
         commit('add_student', jsonData);
+      }).catch((error) => {
+        if (typeof error.text === 'function')
+          error.text().then((errorMessage) => {
+            alert(errorMessage);
+          });
+        else
+          alert(error);
+      });
+    },
+
+    new_user: function({ commit }, user) {
+
+      let {error} = userSchema.validate(JSON.parse(user));
+      if(error){
+        alert("Bad input: \n" + error.details[0].message);
+        return;
+      }
+
+      fetch('http://localhost:8081/api/users/', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: user
+      }).then((response) => {
+        if (!response.ok)
+          throw response;
+
+        return response.json();
+      }).then((jsonData) => {
+        commit('add_user', jsonData);
       }).catch((error) => {
         if (typeof error.text === 'function')
           error.text().then((errorMessage) => {

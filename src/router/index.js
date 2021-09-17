@@ -6,6 +6,7 @@ import Students from "@/views/Students";
 import Edit from "@/views/Edit";
 import UpdateVaccine from "@/views/UpdateVaccine";
 import UpdateStudent from "@/views/UpdateStudent";
+import Register from "@/views/Register";
 
 Vue.use(VueRouter)
 
@@ -34,7 +35,13 @@ const routes = [
         path: '/updatestudent/:id',
         name: 'updateStudent',
         component: UpdateStudent
-    }
+    },
+
+    {
+        path: '/register',
+        name: 'register',
+        component: Register
+    },
 
 
 ]
