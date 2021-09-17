@@ -26,6 +26,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+const Joi = require('joi');
+
+const vaccineSchema = Joi.object().keys({
+  name: Joi.string().trim().min(1).max(45).required(),
+  country: Joi.string().trim().min(1).max(45).required(),
+  doses: Joi.number().min(1).max(20).required(),
+})
 
 export default {
   name: "AddVaccine",
@@ -59,6 +66,13 @@ export default {
     ...mapActions(['new_vaccine']),
 
     addNew: function() {
+
+      let {error} = vaccineSchema.validate({name: this.newName, country: this.newCountry, doses: this.newDoses});
+
+      if(error) {
+        alert(error.details[0].message);
+      }else {
+        alert("Uspešno ste dodali novu vakcinu!")
       const newVaccine = JSON.stringify({name: this.newName, country: this.newCountry, doses: this.newDoses});
 
       this.new_vaccine(newVaccine);
@@ -66,6 +80,7 @@ export default {
       this.newName = '';
       this.newCountry = '';
       this.newDoses = '';
+    }
     }
   }
 }

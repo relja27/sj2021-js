@@ -15,7 +15,7 @@
               <b-button variant="danger" @click="delete_student(row.item.id)">Izbriši</b-button>
             </template>
           </b-table>
-          <h1 v-else>Nema studenata</h1>
+          <h1 v-else>Nema studenata ❌</h1>
         </b-form>
       </b-container>
     </b-jumbotron>

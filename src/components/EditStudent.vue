@@ -15,7 +15,7 @@
           <b-input v-model="newVaccineId" class="mb-2 mr-sm-2 mb-sm-0" placeholder="ID Vakcine"></b-input>
         </b-col>
         <b-col sm="2" offset="0">
-          <b-button variant="primary" size="mb" @click="updateStudent">Izmeni</b-button>
+          <b-button variant="primary" size="mb" @click="updateStudent">Sačuvaj izmene</b-button>
         </b-col>
       </b-row>
     </b-form>

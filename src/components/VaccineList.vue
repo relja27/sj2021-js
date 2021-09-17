@@ -15,7 +15,7 @@
               <b-button variant="danger" @click="delete_vaccine(row.item.id)">Izbriši</b-button>
             </template>
           </b-table>
-          <h1 v-else>Nema vakcina</h1>
+          <h1 v-else>Nema vakcina ❌</h1>
         </b-form>
       </b-container>
     </b-jumbotron>

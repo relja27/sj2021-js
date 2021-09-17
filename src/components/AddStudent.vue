@@ -30,6 +30,15 @@
 
 <script>
 import { mapActions } from 'vuex';
+const Joi = require('joi');
+
+
+const studentSchema = Joi.object().keys({
+  name: Joi.string().trim().min(1).max(45).required(),
+  lastname: Joi.string().trim().min(1).max(45).required(),
+  year: Joi.number().min(2006).max(2021).required(),
+  vaccine_id: Joi.number().min(1).max(200).required(),
+})
 
 export default {
   name: "AddStudent",
@@ -68,15 +77,34 @@ export default {
   methods: {
     ...mapActions(['new_student']),
 
-    addNew: function() {
-      const newStudent = JSON.stringify({name: this.newName, lastname: this.newLastname, year: this.newYear, vaccine_id: this.newVaccineId});
+    addNew: function () {
 
-      this.new_student(newStudent);
+      let {error} = studentSchema.validate({
+        name: this.newName,
+        lastname: this.newLastname,
+        year: this.newYear,
+        vaccine_id: this.newVaccineId
+      });
 
-      this.newName = '';
-      this.newLastname = '';
-      this.newYear = '';
-      this.newVaccineId = '';
+      if (error) {
+        alert(error.details[0].message);
+      } else {
+        alert("Uspešno ste dodali novog studenta!")
+        const newStudent = JSON.stringify({
+          name: this.newName,
+          lastname: this.newLastname,
+          year: this.newYear,
+          vaccine_id: this.newVaccineId
+        });
+
+        this.new_student(newStudent);
+
+        this.newName = '';
+        this.newLastname = '';
+        this.newYear = '';
+        this.newVaccineId = '';
+      }
+
     }
   }
 }
