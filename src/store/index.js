@@ -10,9 +10,17 @@ const vaccineSchema = Joi.object().keys({
   doses: Joi.number().integer().min(1).max(20).required(),
 })
 
+const studentSchema = Joi.object().keys({
+  name: Joi.string().trim().min(1).max(45).required(),
+  lastname: Joi.string().trim().min(1).max(45).required(),
+  year: Joi.number().integer().min(2006).max(2021).required(),
+  vaccine_id: Joi.number().integer().min(1).max(200).required(),
+})
+
 export default new Vuex.Store({
   state: {
-    vaccines: []
+    vaccines: [],
+    students: []
   },
 
   mutations: {
@@ -21,8 +29,16 @@ export default new Vuex.Store({
       state.vaccines = vaccines;
     },
 
+    set_students: function (state, students) {
+      state.students = students;
+    },
+
     add_vaccine: function (state, vaccine) {
       state.vaccines.push(vaccine);
+    },
+
+    add_student: function (state, students) {
+      state.students.push(students);
     },
 
     remove_vaccine: function (state, id) {
@@ -34,12 +50,33 @@ export default new Vuex.Store({
       }
     },
 
+    remove_student: function (state, id) {
+      for (let s = 0; s < state.students.length; s++) {
+        if (state.students[s].id === id) {
+          state.students.splice(s, 1);
+          break;
+        }
+      }
+    },
+
     update_vaccine: function (state, payload) {
       for (let v = 0; v < state.vaccines.length; v++) {
         if (state.vaccines[v].id === parseInt(payload.id)) {
           state.vaccines[v].name = payload.vaccine.name;
           state.vaccines[v].country = payload.vaccine.country;
           state.vaccines[v].doses = payload.vaccine.doses;
+          break;
+        }
+      }
+    },
+
+    update_student: function (state, payload) {
+      for (let s = 0; s < state.students.length; s++) {
+        if (state.students[s].id === parseInt(payload.id)) {
+          state.students[s].name = payload.students.name;
+          state.students[s].lastname = payload.students.lastname;
+          state.students[s].year = payload.students.year;
+          state.students[s].vaccine_id = payload.students.vaccine_id;
           break;
         }
       }
@@ -66,6 +103,24 @@ export default new Vuex.Store({
       });
     },
 
+    load_students: function ({ commit }) {
+      fetch('http://localhost:8081/api/students', { method: 'get' }).then((response) => {
+        if (!response.ok)
+          throw response;
+
+        return response.json()
+      }).then((jsonData) => {
+        commit('set_students', jsonData)
+      }).catch((error) => {
+        if (typeof error.text === 'function')
+          error.text().then((errorMessage) => {
+            alert(errorMessage);
+          });
+        else
+          alert(error);
+      });
+    },
+
     delete_vaccine: function({ commit }, id) {
       fetch(`http://localhost:8081/api/vaccines/${id}`, { method: 'delete' }).then((response) => {
         if (!response.ok)
@@ -74,6 +129,24 @@ export default new Vuex.Store({
         return response.json()
       }).then((jsonData) => {
         commit('remove_vaccine', jsonData.id)
+      }).catch((error) => {
+        if (typeof error.text === 'function')
+          error.text().then((errorMessage) => {
+            alert(errorMessage);
+          });
+        else
+          alert(error);
+      });
+    },
+
+    delete_student: function({ commit }, id) {
+      fetch(`http://localhost:8081/api/students/${id}`, { method: 'delete' }).then((response) => {
+        if (!response.ok)
+          throw response;
+
+        return response.json()
+      }).then((jsonData) => {
+        commit('remove_student', jsonData.id)
       }).catch((error) => {
         if (typeof error.text === 'function')
           error.text().then((errorMessage) => {
@@ -115,6 +188,37 @@ export default new Vuex.Store({
       });
     },
 
+    new_student: function({ commit }, student) {
+
+      let {error} = studentSchema.validate(JSON.parse(student));
+      if(error){
+        alert("Bad input: \n" + error.details[0].message);
+        return;
+      }
+
+      fetch('http://localhost:8081/api/students/', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: student
+      }).then((response) => {
+        if (!response.ok)
+          throw response;
+
+        return response.json();
+      }).then((jsonData) => {
+        commit('add_student', jsonData);
+      }).catch((error) => {
+        if (typeof error.text === 'function')
+          error.text().then((errorMessage) => {
+            alert(errorMessage);
+          });
+        else
+          alert(error);
+      });
+    },
+
     change_vaccine: function({ commit }, payload) {
 
       let {error} = vaccineSchema.validate(JSON.parse(payload.vaccine));
@@ -123,7 +227,7 @@ export default new Vuex.Store({
         return;
       }
 
-      fetch(`http://localhost:8081/api/vaccines/${payload.id}`, {
+      fetch(`http://localhost:8081/api/vaccines/${payload.id}/`, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json'
@@ -144,6 +248,38 @@ export default new Vuex.Store({
         else
           alert(error);
       });
+    },
+
+    change_student: function({ commit }, payload) {
+
+      let {error} = studentSchema.validate(JSON.parse(payload.student));
+      if(error){
+        alert("Bad input: \n" + error.details[0].message);
+        return;
+      }
+
+      fetch(`http://localhost:8081/api/students/${payload.id}/`, {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: payload.student
+      }).then((response) => {
+        if (!response.ok)
+          throw response;
+
+        return response.json();
+      }).then((jsonData) => {
+        commit('update_student', {id: payload.id, student: jsonData});
+      }).catch((error) => {
+        if (typeof error.text === 'function')
+          error.text().then((errorMessage) => {
+            alert(errorMessage);
+          });
+        else
+          alert(error);
+      });
     }
+
   }
 })

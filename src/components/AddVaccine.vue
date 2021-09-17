@@ -39,7 +39,7 @@ export default {
       default: ''
     },
     doses: {
-      type: String,
+      type: Number,
       default: ''
     }
   },

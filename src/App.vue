@@ -4,6 +4,8 @@
       <router-link to="/">Home</router-link>
       <br>
       <router-link to="/vaccines">Vakcine</router-link>
+      <br>
+      <router-link to="/students">Studenti</router-link>
     </div>
     <router-view/>
   </div>
@@ -15,10 +17,12 @@ import { mapActions } from 'vuex';
 export default {
   name: "App",
   methods: {
-    ...mapActions(['load_vaccines'])
+    ...mapActions(['load_vaccines']),
+    ...mapActions(['load_students'])
   },
   mounted: function() {
     this.load_vaccines();
+    this.load_students();
   }
 }
 </script>

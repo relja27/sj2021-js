@@ -45,7 +45,6 @@ export default {
     updateVaccine: function() {
       const newVaccine = JSON.stringify({name: this.newName, country: this.newCountry, doses: this.newDoses});
       this.change_vaccine({id: this.$route.params.id, vaccine: newVaccine});
-
     }
   }
 }
